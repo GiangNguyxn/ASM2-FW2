@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "name": "Sản phẩm 4",
+      "price": "6000",
+      "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1690773478/images/zupo3sbofmfpxvjrgxp6.jpg",
+      "id": 2
+    },
+    {
+      "name": "Products demo",
+      "price": "6000",
+      "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1690773550/images/mtfqkbcnplyt8454losx.jpg",
+      "id": 3
+    },
+    {
+      "name": "Giang chuate",
+      "price": "10000",
+      "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1690773532/images/sbo9rhyezpp4kmbmhsna.jpg",
+      "id": 4
+    },
+    {
+      "name": "Product hihihiiih",
+      "price": "5000",
+      "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1690773587/images/dacwt3gihosyui05ksio.jpg",
+      "id": 5
+    },
+    {
+      "name": "Sản phẩm 10",
+      "price": "80000",
+      "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1690775439/images/fxnigeoskc0jj4j34gzj.jpg",
+      "id": 6
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
