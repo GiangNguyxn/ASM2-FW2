@@ -4,15 +4,13 @@ import { useAppDispatch, useAppSelector } from "../store/hook";
 import { Link } from "react-router-dom";
 import { add } from "../slices/Cart";
 import { getProducts } from "../actions/Product";
+import { useGetProductsQuery } from "../api/Product";
 
 type Props = {};
 
 const ProductPage = (props: Props) => {
-  const { products } = useAppSelector((state) => state.products);
+  const {data:products,error,isLoading} = useGetProductsQuery()
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getProducts());
-  }, []);
   return (
     <div className="max-w-[1200px] mx-auto mt-4">
       <div className="grid grid-cols-3 gap-4">

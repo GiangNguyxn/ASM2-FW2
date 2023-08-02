@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { addProduct, updateProduct } from "../../actions/Product";
 import { useParams, useNavigate } from "react-router";
+import { useGetProductByIdQuery, useGetProductsQuery, useUpdateProductMutation } from "../../api/Product";
+import { IProduct } from "../../interfaces/product";
 type Props = {};
 
 const EditProductPage = (props: Props) => {
   const { id } = useParams();
-  const { products } = useAppSelector((state) => state.products);
-  const [product, setProduct] = useState({});
+  const { data:product,error,isLoading } = useGetProductByIdQuery(id)
+  const [update, result] = useUpdateProductMutation<any>()
   const [urlImg, setUrlImg] = useState();
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
   const cloud_name = "dbktpvcfz";
   const preset_key = "upload";
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const data = products.find((item: any) => item.id == id);
-    setProduct(data);
-  }, [products]);
+  
   // set giá trị của product lấy đc vào form
   useEffect(() => {
     setFields();
@@ -35,12 +33,9 @@ const EditProductPage = (props: Props) => {
 
   const onFinish = (values: any) => {
     values.image === undefined
-      ? dispatch(updateProduct({ id: id, ...values, image: product.image }))
-      : dispatch(updateProduct({ id: id, ...values, image: urlImg }));
+      ? dispatch(update({ id: id, ...values, image: product.image }))
+      : dispatch(update({ id: id, ...values, image: urlImg }));
     navigate("/admin");
-  };
-  const onFinishFailed = (errorInfo: any) => {
-    console.log(errorInfo);
   };
   // lấy ảnh từ input và đẩy lên cloudinary
   const onHandleFile = async (e: any) => {
@@ -64,7 +59,6 @@ const EditProductPage = (props: Props) => {
         wrapperCol={{ span: 16 }}
         style={{ maxWidth: 800 }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item

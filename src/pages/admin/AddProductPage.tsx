@@ -4,9 +4,11 @@ import axios from "axios";
 import { useAppDispatch } from "../../store/hook";
 import { addProduct } from "../../actions/Product";
 import { useNavigate } from "react-router";
+import { useAddProductMutation } from "../../api/Product";
 type Props = {};
 
 const AddProductPage = () => {
+  const [add , result] = useAddProductMutation()
   const [urlImage, setUrlImage] = useState();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ const AddProductPage = () => {
   const onFinish = (values: any) => {
     const newProduct = { ...values, image: urlImage };
     if (newProduct.image != undefined) {
-      dispatch(addProduct(newProduct));
+      dispatch(add(newProduct));
       navigate("/admin");
     }
   };

@@ -16,7 +16,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { cartReducer } from "../slices/Cart";
-import { productReducer } from "../slices/Product";
+import productApi, { productReducer } from "../api/Product";
 
 const persistConfig = {
   key: "root",
@@ -24,7 +24,7 @@ const persistConfig = {
   whitelist: ["carts"],
 };
 const rootReducer = combineReducers({
-  products: productReducer,
+  [productApi.reducerPath]: productReducer,
   carts: cartReducer,
 });
 
@@ -37,7 +37,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(productApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

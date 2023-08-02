@@ -3,18 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../store/hook";
 import { add } from "../slices/Cart";
+import { useGetProductByIdQuery, useGetProductsQuery } from "../api/Product";
 
 type Props = {};
 
 const ProductDetailPage = (props: Props) => {
   const { id } = useParams();
-  const { products } = useAppSelector((state) => state.products);
+  const {data:product , error , isLoading } = useGetProductByIdQuery(id)
   const dispatch = useAppDispatch();
-  const [product, setProduct] = useState<any>({});
-  useEffect(() => {
-    const data = products.find((item) => item.id == id);
-    setProduct(data);
-  }, [products]);
   return (
     <div className="max-w-[1000px] mx-auto mt-4">
       <div className="flex gap-4">
