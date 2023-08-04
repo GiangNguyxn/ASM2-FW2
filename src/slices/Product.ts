@@ -4,7 +4,7 @@ import {
   getProducts,
   removeProduct,
   updateProduct,
-} from "../actions/Product";
+} from "../actions[draft]/Product";
 
 const initialState = {
   products: [],

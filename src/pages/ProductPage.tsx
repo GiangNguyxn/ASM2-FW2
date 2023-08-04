@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hook";
 import { Link } from "react-router-dom";
 import { add } from "../slices/Cart";
-import { getProducts } from "../actions/Product";
+import { getProducts } from "../actions[draft]/Product";
 import { useGetProductsQuery } from "../api/Product";
 
 type Props = {};

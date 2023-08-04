@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../axios/config";
+import { instance } from "../axios[draft]/config";
 
 export const getProducts = createAsyncThunk(
   "product/fetchProducts",

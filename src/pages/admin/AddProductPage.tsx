@@ -1,24 +1,38 @@
 import React, { useState } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import axios from "axios";
 import { useAppDispatch } from "../../store/hook";
-import { addProduct } from "../../actions/Product";
 import { useNavigate } from "react-router";
 import { useAddProductMutation } from "../../api/Product";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { pause } from "../../utils/pause";
 type Props = {};
 
 const AddProductPage = () => {
-  const [add , result] = useAddProductMutation()
+  const [add , {isLoading:isAddLoading}] = useAddProductMutation()
   const [urlImage, setUrlImage] = useState();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [messageApi , contextHolder] = message.useMessage()
+  const [form] = Form.useForm()
   const cloud_name = "dbktpvcfz";
   const preset_key = "upload";
   const onFinish = (values: any) => {
     const newProduct = { ...values, image: urlImage };
     if (newProduct.image != undefined) {
-      dispatch(add(newProduct));
-      navigate("/admin");
+      add(newProduct)
+      .unwrap()
+      .then(async()=>{
+        form.resetFields()
+        messageApi.open({
+          type:"success",
+          content:"Thêm sản phẩm thành công . Chuyển trang sau 3s"
+        });
+        await pause(3000);
+        navigate("/admin");
+
+
+
+      })
     }
   };
 
@@ -34,11 +48,13 @@ const AddProductPage = () => {
       `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
       formData
     );
-    setUrlImage(data.secure_url);
+    
+    data ? setUrlImage(data.secure_url) : alert("upload failed")
   };
 
   return (
     <>
+     {contextHolder}
       <h1 className=" text-4xl font-bold m-4">Thêm sản phẩm</h1>
       <Form
         name="basic"
@@ -73,7 +89,13 @@ const AddProductPage = () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button htmlType="submit">Submit</Button>
+          <Button htmlType="submit">
+          {isAddLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin" />
+                        ) : (
+                            "Thêm"
+                        )}
+          </Button>
         </Form.Item>
       </Form>
     </>

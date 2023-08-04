@@ -1,19 +1,20 @@
 import React, { Dispatch, useEffect, useState } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Skeleton, message } from "antd";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
-import { addProduct, updateProduct } from "../../actions/Product";
+import { addProduct, updateProduct } from "../../actions[draft]/Product";
 import { useParams, useNavigate } from "react-router";
-import { useGetProductByIdQuery, useGetProductsQuery, useUpdateProductMutation } from "../../api/Product";
-import { IProduct } from "../../interfaces/product";
+import { useGetProductByIdQuery, useUpdateProductMutation } from "../../api/Product";
+import { pause } from "../../utils/pause";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 type Props = {};
 
 const EditProductPage = (props: Props) => {
   const { id } = useParams();
-  const { data:product,error,isLoading } = useGetProductByIdQuery(id)
-  const [update, result] = useUpdateProductMutation<any>()
+  const { data:product,isLoading } = useGetProductByIdQuery(id || "")
+  const [update, {isLoading:isEditLoading}] = useUpdateProductMutation<any>()
+  const [messageApi , contextHolder] = message.useMessage()
   const [urlImg, setUrlImg] = useState();
-  const dispatch = useAppDispatch();
   const [form] = Form.useForm();
   const cloud_name = "dbktpvcfz";
   const preset_key = "upload";
@@ -33,9 +34,23 @@ const EditProductPage = (props: Props) => {
 
   const onFinish = (values: any) => {
     values.image === undefined
-      ? dispatch(update({ id: id, ...values, image: product.image }))
-      : dispatch(update({ id: id, ...values, image: urlImg }));
-    navigate("/admin");
+      ? update({ id: id, ...values, image: product.image }).unwrap().then(async()=>{
+        messageApi.open({
+          type:"success",
+          content:"Cập nhật sản phẩm thành công . Chuyển trang sau 2s"
+        })
+        await pause(2000)
+        navigate("/admin");
+
+      })
+      : update({ id: id, ...values, image: urlImg }).unwrap().then(async()=>{
+        messageApi.open({
+          type:"success",
+          content:"Cập nhật sản phẩm thành công . Chuyển trang sau 2s"
+        })
+        await pause(2000)
+        navigate("/admin");
+      })
   };
   // lấy ảnh từ input và đẩy lên cloudinary
   const onHandleFile = async (e: any) => {
@@ -51,8 +66,9 @@ const EditProductPage = (props: Props) => {
   };
   return (
     <>
+    {contextHolder}
       <h1 className=" text-4xl font-bold m-4">Cập nhật sản phẩm</h1>
-      <Form
+      {isLoading ? <Skeleton/> : <Form
         form={form}
         name="basic"
         labelCol={{ span: 8 }}
@@ -81,9 +97,15 @@ const EditProductPage = (props: Props) => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button htmlType="submit">Submit</Button>
+
+          <Button htmlType="submit">{isEditLoading ? (
+                            <AiOutlineLoading3Quarters className="animate-spin" />
+                        ) : (
+                            "Cập nhật"
+                        )}</Button>
         </Form.Item>
-      </Form>
+      </Form>}
+     
     </>
   );
 };

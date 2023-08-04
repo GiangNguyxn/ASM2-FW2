@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "name": "Sản phẩm 4 update",
+      "name": "Sản phẩm 4 update 6",
       "price": "6000",
       "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1690773478/images/zupo3sbofmfpxvjrgxp6.jpg",
       "id": 2
@@ -23,6 +23,18 @@
       "price": "5000",
       "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1690773587/images/dacwt3gihosyui05ksio.jpg",
       "id": 5
+    },
+    {
+      "name": "Product 2",
+      "price": "1000",
+      "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1691151096/images/hfjdengsbspxjtrjgsx9.jpg",
+      "id": 7
+    },
+    {
+      "name": "Produtc test",
+      "price": "6000",
+      "image": "https://res.cloudinary.com/dbktpvcfz/image/upload/v1691151135/images/mxkytlmxl6r8v0oy1xmg.jpg",
+      "id": 8
     }
   ],
   "comments": [

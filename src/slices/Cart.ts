@@ -28,7 +28,7 @@ const cartSlice = createSlice({
       if (currentProduct.quantity < 1) {
         const confirm = window.confirm("Are you sure you want to decrease");
         confirm
-          ? state.carts.filter((item: any) => item.id != action.payload)
+          ? state.carts = state.carts.filter((item: any) => item.id != action.payload)
           : (currentProduct.quantity = 1);
       }
     },
